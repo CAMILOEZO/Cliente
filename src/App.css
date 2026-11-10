@@ -1,0 +1,24 @@
+.header {
+  background: #20232a;
+  color: #61dafb;
+  padding: 1rem 2rem;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #61dafb;
+  cursor: pointer;
+  font-size: 1rem;
+}

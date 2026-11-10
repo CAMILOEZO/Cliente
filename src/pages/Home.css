@@ -1,0 +1,52 @@
+.hero {
+  min-height: 100vh;
+  background-color: #070d0a;
+  color: #d7e6dc;
+  padding: 40px;
+  position: relative;
+}
+
+/* Sol: un circulo amarillo */
+.sol {
+  width: 250px;
+  height: 250px;
+  background-color: #ffc93c;
+  border-radius: 50%;
+  position: absolute;
+  top: 60px;
+  right: 60px;
+}
+
+.contenido {
+  max-width: 600px;
+  position: relative;
+}
+
+.titulo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 64px;
+  color: #39ff88;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.texto {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+}
+
+.chip {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 5px 10px;
+  margin-right: 8px;
+  border: 1px solid #d7e6dc;
+  border-radius: 4px;
+}

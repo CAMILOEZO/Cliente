@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: cliente-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules # usa los node_modules del contenedor, no los de Windows
+    environment:
+      - CHOKIDAR_USEPOLLING=true
