@@ -25,7 +25,7 @@ function Register({ onVolver }) {
     // Leemos los usuarios guardados (o un array vacío si no hay ninguno)
     const usuariosGuardados = JSON.parse(localStorage.getItem('usuarios')) || []
 
-    // Comprobamos que el email no esté ya registrado
+    // Comprobamos que el email ya no esté registrado
     const existe = usuariosGuardados.some((usuario) => usuario.email === email)
 
     if (existe) {
