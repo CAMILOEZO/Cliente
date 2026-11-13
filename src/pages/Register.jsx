@@ -45,6 +45,12 @@ function Register({ onVolver }) {
 
   return (
     <section className="registro">
+      <div className="sol"></div>
+
+      <div className="suelo">
+        <div className="rejilla"></div>
+      </div>
+
       <form className="tarjeta" onSubmit={enviar}>
         <h1>Crear cuenta</h1>
         <p className="subtitulo">Únete a Verdant Grid</p>

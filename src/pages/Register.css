@@ -5,6 +5,8 @@
   justify-content: center;
   background-color: #070d0a;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
 .tarjeta {
