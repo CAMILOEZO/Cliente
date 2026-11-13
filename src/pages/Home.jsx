@@ -8,6 +8,7 @@ function Home() {
 
       <div className="suelo">
         <div className="rejilla"></div>
+          <div className="niebla"></div>
       </div>
 
       <div className="contenido">
