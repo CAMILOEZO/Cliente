@@ -49,6 +49,7 @@ function Register({ onVolver }) {
 
       <div className="suelo">
         <div className="rejilla"></div>
+        <div className="niebla"></div>
       </div>
 
       <form className="tarjeta" onSubmit={enviar}>
