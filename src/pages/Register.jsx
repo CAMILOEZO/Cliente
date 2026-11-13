@@ -22,7 +22,25 @@ function Register({ onVolver }) {
       return
     }
 
+    // Leemos los usuarios guardados (o un array vacío si no hay ninguno)
+    const usuariosGuardados = JSON.parse(localStorage.getItem('usuarios')) || []
+
+    // Comprobamos que el email no esté ya registrado
+    const existe = usuariosGuardados.some((usuario) => usuario.email === email)
+
+    if (existe) {
+      setMensaje('Ese email ya está registrado')
+      return
+    }
+
+    // Añadimos el nuevo usuario al array
+    usuariosGuardados.push({ nombre, email, password })
+
+    // Guardamos el array convertido a texto en el navegador
+    localStorage.setItem('usuarios', JSON.stringify(usuariosGuardados))
+
     setMensaje('¡Cuenta creada correctamente!')
+    // En la app final la contraseña iría al backend
   }
 
   return (
