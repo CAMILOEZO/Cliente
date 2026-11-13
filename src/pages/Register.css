@@ -1,0 +1,90 @@
+.registro {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #070d0a;
+  padding: 20px;
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 400px;
+  background-color: #0d1a12;
+  border: 1px solid #39ff88;
+  border-radius: 10px;
+  padding: 30px;
+  color: #d7e6dc;
+}
+
+.tarjeta h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  color: #39ff88;
+  text-align: center;
+  margin-top: 0;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #9fc4ae;
+  margin-bottom: 25px;
+}
+
+.tarjeta label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.tarjeta input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #070d0a;
+  border: 1px solid #2a4a36;
+  border-radius: 5px;
+  color: #d7e6dc;
+  font-size: 14px;
+}
+
+.tarjeta input:focus {
+  outline: none;
+  border-color: #39ff88;
+}
+
+.boton {
+  width: 100%;
+  padding: 10px;
+  background-color: #39ff88;
+  color: #070d0a;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: #75f6a9;
+}
+
+.mensaje {
+  margin-top: 15px;
+  text-align: center;
+  color: #ff6b6b;
+  font-size: 14px;
+}
+
+.pie {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.enlace {
+  background: none;
+  border: none;
+  color: #39ff88;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
