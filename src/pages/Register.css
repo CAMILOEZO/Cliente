@@ -12,6 +12,8 @@
 .tarjeta {
   width: 100%;
   max-width: 400px;
+  position: relative;
+  z-index: 1;
   background-color: #0d1a12;
   border: 1px solid #39ff88;
   border-radius: 10px;

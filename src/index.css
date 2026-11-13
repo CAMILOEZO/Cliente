@@ -19,6 +19,7 @@ body {
   bottom: 0;
   height: 50%;
   perspective: 400px;
+  pointer-events: none;
 }
 
 .rejilla {
@@ -55,4 +56,5 @@ body {
   top: 60px;
   right: 60px;
   box-shadow: 0px 0px 25px #ffae52;
+  pointer-events: none;
 }
