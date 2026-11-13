@@ -53,7 +53,7 @@
   border-color: #39ff88;
 }
 
-.boton {
+.tarjeta .boton {
   width: 100%;
   padding: 10px;
   background-color: #39ff88;
@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 
-.boton:hover {
+.tarjeta .boton:hover {
   background-color: #75f6a9;
 }
 
