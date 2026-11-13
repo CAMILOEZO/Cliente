@@ -1,0 +1,979 @@
+================================================================
+ EXPLICACIÓN LÍNEA POR LÍNEA — PANTALLA DE REGISTRO
+ Proyecto: Cliente (Verdant Grid) — React + Vite
+ Nivel: primero de DAW
+================================================================
+
+ÍNDICE
+  1. Qué hace cada archivo
+  2. src/pages/Register.jsx  (línea por línea)
+  3. src/pages/Register.css  (línea por línea)
+  3.5 src/index.css          (fondo compartido)
+  4. src/App.jsx             (línea por línea)
+  5. src/pages/Home.jsx      (solo las líneas modificadas)
+  6. src/components/Buttons.jsx (línea por línea)
+  7. Cómo probarlo
+  8. Conceptos clave explicados
+
+
+================================================================
+1. QUÉ HACE CADA ARCHIVO
+================================================================
+
+Register.jsx  -> La pantalla de registro: los campos del formulario,
+                 la validación, los mensajes y el guardado de usuarios
+                 en localStorage.
+Register.css  -> Los estilos (colores, tamaños, bordes) de esa pantalla.
+index.css     -> Estilos globales. Aquí está el fondo compartido:
+                 el sol, el suelo y la rejilla animada.
+App.jsx       -> Decide qué pantalla se muestra: Home o Register.
+Home.jsx      -> Se le añade la posibilidad de avisar al pulsar "Empezar".
+Buttons.jsx   -> El botón "Empezar" ahora acepta una función onClick.
+
+Flujo:
+  Home  --(clic en "Empezar")-->  Register
+  Register --(clic en "Volver al inicio")-->  Home
+
+Los usuarios se guardan en localStorage (el navegador). Al recargar la
+página siguen ahí, pero solo en ese navegador. No es una base de datos
+real: sirve para practicar.
+
+El fondo (sol + suelo + rejilla) estaba dentro de Home.css. Ahora vive
+en index.css para que Home y Register usen exactamente el mismo.
+
+
+================================================================
+2. src/pages/Register.jsx
+================================================================
+
+L1   import { useState } from 'react'
+     Importa el hook useState de React. Un hook es una función especial
+     que nos deja guardar datos que cambian (el texto de los campos).
+
+L2   import './Register.css'
+     Importa la hoja de estilos. Al importarla aquí, Vite la carga
+     automáticamente cuando se muestra este componente.
+
+L3   (línea en blanco)
+     Solo separa bloques de código para que se lea mejor.
+
+L4   function Register({ onVolver }) {
+     Declara el componente Register. Recibe un "prop" llamado onVolver,
+     que es una función que le pasa el padre (App) para poder volver
+     a la pantalla de inicio.
+
+L5   // Un estado por cada campo
+     Comentario. El ordenador lo ignora; sirve para explicar el código.
+
+L6   const [nombre, setNombre] = useState('')
+     Crea un estado llamado nombre. Empieza vacío ('').
+     - nombre: el valor actual.
+     - setNombre: la función para cambiarlo.
+     Cuando cambia, React vuelve a dibujar la pantalla.
+
+L7   const [email, setEmail] = useState('')
+     Lo mismo, pero para el email.
+
+L8   const [password, setPassword] = useState('')
+     Lo mismo, pero para la contraseña.
+
+L9   const [repetir, setRepetir] = useState('')
+     Lo mismo, pero para la contraseña repetida.
+
+L10  const [mensaje, setMensaje] = useState('')
+     Estado para el mensaje de error o de éxito. Empieza vacío,
+     que significa "no mostrar nada".
+
+L11  (línea en blanco)
+     Separación visual.
+
+L12  function enviar(evento) {
+     Declara la función que se ejecuta cuando se envía el formulario.
+     "evento" es la información del envío (lo que ha pasado).
+
+L13  evento.preventDefault() // evita que la página se recargue
+     Por defecto, un formulario HTML recarga la página al enviarse.
+     preventDefault() cancela ese comportamiento para que React pueda
+     validar y mostrar mensajes sin perder lo escrito.
+
+L14  (línea en blanco)
+
+L15  if (password.length < 8) {
+     Comprueba si la contraseña tiene menos de 8 caracteres.
+     .length cuenta cuántos caracteres tiene el texto.
+
+L16  setMensaje('La contraseña debe tener al menos 8 caracteres')
+     Guarda ese texto en el estado mensaje. Al cambiar, React mostrará
+     el mensaje en pantalla.
+
+L17  return
+     Sale de la función enviar. Así no sigue ejecutando el resto:
+     si hay un error, no queremos continuar.
+
+L18  }
+
+L19  (línea en blanco)
+
+L20  if (password !== repetir) {
+     Comprueba si las dos contraseñas son distintas.
+     !== significa "distinto de".
+
+L21  setMensaje('Las contraseñas no coinciden')
+     Guarda el mensaje de error correspondiente.
+
+L22  return
+     Vuelve a salir de la función para no continuar.
+
+L23  }
+
+L24  (línea en blanco)
+
+L25  // Leemos los usuarios guardados (o un array vacío si no hay ninguno)
+     Comentario que explica la línea siguiente.
+
+L26  const usuariosGuardados = JSON.parse(localStorage.getItem('usuarios')) || []
+     Lee los usuarios que ya hay guardados en el navegador.
+     - localStorage.getItem('usuarios') devuelve un texto (o null si
+       todavía no hay nada guardado).
+     - JSON.parse(...) convierte ese texto en un array de JavaScript.
+     - || [] significa: si lo anterior es null (no hay nada), usa un
+       array vacío. Así siempre tenemos un array con el que trabajar.
+
+L27  (línea en blanco)
+
+L28  // Comprobamos que el email ya no esté registrado
+     Comentario.
+
+L29  const existe = usuariosGuardados.some((usuario) => usuario.email === email)
+     Recorre el array y comprueba si hay algún usuario cuyo email sea
+     igual al que se está escribiendo.
+     - .some(...) devuelve true si al menos un elemento cumple la
+       condición, y false si ninguno la cumple.
+     - (usuario) => usuario.email === email es una función flecha que
+       recibe cada usuario y compara su email con el del formulario.
+
+L30  (línea en blanco)
+
+L31  if (existe) {
+     Si ya hay un usuario con ese email...
+
+L32  setMensaje('Ese email ya está registrado')
+     ...mostramos el aviso.
+
+L33  return
+     Y salimos sin guardar nada.
+
+L34  }
+
+L35  (línea en blanco)
+
+L36  // Añadimos el nuevo usuario al array
+     Comentario.
+
+L37  usuariosGuardados.push({ nombre, email, password })
+     Añade un objeto nuevo al final del array.
+     - { nombre, email, password } es lo mismo que escribir
+       { nombre: nombre, email: email, password: password }.
+     - push(...) mete ese objeto dentro de usuariosGuardados.
+
+L38  (línea en blanco)
+
+L39  // Guardamos el array convertido a texto en el navegador
+     Comentario.
+
+L40  localStorage.setItem('usuarios', JSON.stringify(usuariosGuardados))
+     Guarda el array en el navegador.
+     - JSON.stringify(...) convierte el array en texto, porque
+       localStorage solo puede guardar texto.
+     - setItem('usuarios', ...) lo guarda con la clave 'usuarios'.
+     Si ya existía algo con esa clave, lo reemplaza por el array nuevo.
+
+L41  (línea en blanco)
+
+L42  setMensaje('¡Cuenta creada correctamente!')
+     Muestra el mensaje de éxito.
+
+L43  // En la app final la contraseña iría al backend
+     Comentario-recordatorio: en localStorage la contraseña queda en
+     texto plano y se puede ver. Solo vale para practicar.
+
+L44  }
+     Fin de la función enviar.
+
+L45  (línea en blanco)
+
+L46  return (
+     Empieza lo que el componente va a dibujar en pantalla (JSX).
+     JSX es HTML con un poco de JavaScript dentro.
+
+L47  <section className="registro">
+     Contenedor principal. Usa la clase CSS "registro" (definida en
+     Register.css). En React se escribe className, no class.
+
+L48  <div className="sol"></div>
+     Añade el sol amarillo del fondo. No tiene contenido: es solo un
+     círculo que se dibuja con CSS. Sus estilos están en index.css.
+     Gracias a position: absolute, se coloca arriba a la derecha.
+
+L49  (línea en blanco)
+
+L50  <div className="suelo">
+     Contenedor del "suelo". Ocupa la mitad inferior de la pantalla y
+     prepara la perspectiva 3D para la rejilla.
+
+L51  <div className="rejilla"></div>
+     La rejilla verde animada que se mueve hacia el jugador.
+     Es un div vacío: todo el dibujo lo hace el CSS (background-image
+     con dos linear-gradient).
+
+L52  </div>
+     Cierra el suelo.
+
+L53  (línea en blanco)
+
+L54  <form className="tarjeta" onSubmit={enviar}>
+     Formulario con la clase "tarjeta" (la caja oscura con borde verde).
+     onSubmit={enviar} significa: cuando se envíe, ejecuta la función
+     enviar. Se envía al pulsar el botón de tipo submit.
+
+L55  <h1>Crear cuenta</h1>
+     Título grande de la pantalla.
+
+L56  <p className="subtitulo">Únete a Verdant Grid</p>
+     Texto pequeño debajo del título.
+
+L57  (línea en blanco)
+
+L58  <label htmlFor="nombre">Nombre</label>
+     Etiqueta del campo. htmlFor (en HTML normal sería "for") dice
+     a qué input pertenece: al que tenga id="nombre". Así, al pulsar
+     la etiqueta, el cursor se pone en el campo.
+
+L59  <input
+     Empieza la etiqueta input (un campo de texto).
+
+L60  id="nombre"
+     Identificador del campo. Coincide con el htmlFor de la etiqueta.
+
+L61  type="text"
+     Tipo de campo: texto normal.
+
+L62  value={nombre}
+     El valor que se ve en el campo es el del estado nombre.
+     Esto se llama "componente controlado": React manda sobre el valor.
+
+L63  onChange={(e) => setNombre(e.target.value)}
+     Cada vez que el usuario escribe, se ejecuta esta función:
+       e.target.value = el texto actual del campo.
+       setNombre(...) = guarda ese texto en el estado.
+     Al cambiar el estado, el campo se vuelve a dibujar con el nuevo valor.
+
+L64  required
+     Atributo HTML: el navegador no deja enviar el formulario si está vacío.
+
+L65  />
+     Cierra la etiqueta input.
+
+L66  (línea en blanco)
+
+L67  <label htmlFor="email">Email</label>
+     Etiqueta del campo email.
+
+L68  <input
+L69  id="email"
+     Identificador del campo.
+L70  type="email"
+     Tipo email: el navegador comprueba que tenga formato de correo.
+L71  value={email}
+     El valor mostrado es el estado email.
+L72  onChange={(e) => setEmail(e.target.value)}
+     Al escribir, guarda el texto en el estado email.
+L73  required
+     Campo obligatorio.
+L74  />
+     Cierra el input.
+
+L75  (línea en blanco)
+
+L76  <label htmlFor="password">Contraseña</label>
+     Etiqueta del campo contraseña.
+
+L77  <input
+L78  id="password"
+     Identificador del campo.
+L79  type="password"
+     Tipo password: lo que se escribe se ve como puntos (•••).
+L80  value={password}
+     El valor mostrado es el estado password.
+L81  onChange={(e) => setPassword(e.target.value)}
+     Al escribir, guarda el texto en el estado password.
+L82  required
+     Campo obligatorio.
+L83  />
+     Cierra el input.
+
+L84  (línea en blanco)
+
+L85  <label htmlFor="repetir">Repetir contraseña</label>
+     Etiqueta del campo para repetir la contraseña.
+
+L86  <input
+L87  id="repetir"
+     Identificador del campo.
+L88  type="password"
+     También oculta lo que se escribe.
+L89  value={repetir}
+     El valor mostrado es el estado repetir.
+L90  onChange={(e) => setRepetir(e.target.value)}
+     Al escribir, guarda el texto en el estado repetir.
+L91  required
+     Campo obligatorio.
+L92  />
+     Cierra el input.
+
+L93  (línea en blanco)
+
+L94  <button className="boton" type="submit">Registrarme</button>
+     Botón para enviar el formulario.
+     - className="boton" le da los estilos verdes.
+     - type="submit" hace que al pulsarlo se dispare el onSubmit del form.
+     - El texto visible es "Registrarme".
+
+L95  (línea en blanco)
+
+L96  {mensaje && <p className="mensaje">{mensaje}</p>}
+     Esto es JavaScript dentro de JSX.
+     - {mensaje && ...} significa: si mensaje NO está vacío, muestra el <p>.
+     - Si mensaje es '' (vacío), no se muestra nada.
+     - {mensaje} dentro del <p> pinta el texto guardado.
+
+L97  (línea en blanco)
+
+L98  <p className="pie">
+     Párrafo inferior que contiene el botón para volver.
+
+L99  <button type="button" className="enlace" onClick={onVolver}>
+     Botón que parece un enlace.
+     - type="button" es importante: si no se pone, dentro de un form
+       se comportaría como submit y enviaría el formulario sin querer.
+     - onClick={onVolver} ejecuta la función que nos pasó App,
+       que cambia la pantalla a Home.
+
+L100 Volver al inicio
+     Texto visible del botón.
+
+L101 </button>
+     Cierra el botón.
+
+L102 </p>
+     Cierra el párrafo.
+
+L103 </form>
+     Cierra el formulario.
+
+L104 </section>
+     Cierra el contenedor principal.
+
+L105 )
+     Cierra el return (el paréntesis que abrimos en L46).
+
+L106 }
+     Cierra la función Register.
+
+L107 (línea en blanco)
+
+L108 export default Register
+     Exporta el componente para que App.jsx pueda importarlo y usarlo.
+
+
+================================================================
+3. src/pages/Register.css
+================================================================
+
+L1   .registro {
+     Empieza la regla para el contenedor con class="registro".
+
+L2   min-height: 100vh;
+     Altura mínima = 100% de la altura de la ventana (vh = viewport height).
+     Así el fondo ocupa toda la pantalla aunque haya poco contenido.
+
+L3   display: flex;
+     Activa Flexbox, que sirve para colocar y centrar elementos.
+
+L4   align-items: center;
+     Centra el contenido en vertical (eje cruzado).
+
+L5   justify-content: center;
+     Centra el contenido en horizontal (eje principal).
+
+L6   background-color: #070d0a;
+     Color de fondo: verde muy oscuro, casi negro (el del proyecto).
+
+L7   padding: 20px;
+     Espacio interior de 20px para que la tarjeta no toque los bordes
+     en pantallas pequeñas.
+
+L8   position: relative;
+     Hace que este contenedor sea la referencia para los hijos con
+     position: absolute (el sol y el suelo). Sin esto, el sol se
+     colocaría respecto a la ventana y no respecto a la sección.
+
+L9   overflow: hidden;
+     Recorta lo que se salga de la sección. La rejilla mide el doble
+     de ancho, así que sin esto aparecería una barra de scroll horizontal.
+
+L10  }
+     Fin de la regla .registro.
+
+L11  (línea en blanco)
+
+L12  .tarjeta {
+     Empieza la regla de la caja del formulario.
+
+L13  width: 100%;
+     Ocupa todo el ancho disponible...
+
+L14  max-width: 400px;
+     ...pero como máximo 400px. En móvil será más estrecha; en PC no
+     se estira más de 400px.
+
+L15  position: relative;
+     Hace que la tarjeta sea la referencia de sus elementos
+     posicionados y permite que z-index funcione.
+
+L16  z-index: 1;
+     Pone la tarjeta por encima del sol y de la rejilla. Sin esto,
+     el suelo (que es absolute) se dibuja encima de la tarjeta y se
+     "come" los clics del botón: por eso no funcionaba "Registrarme".
+
+L17  background-color: #0d1a12;
+     Fondo de la tarjeta: verde oscuro un poco más claro que la página.
+
+L18  border: 1px solid #39ff88;
+     Borde de 1px, continuo, de color verde neón.
+
+L19  border-radius: 10px;
+     Redondea las esquinas 10px.
+
+L20  padding: 30px;
+     Espacio interior para que el texto no toque el borde.
+
+L21  color: #d7e6dc;
+     Color del texto dentro de la tarjeta: verde muy claro.
+
+L22  }
+
+L23  (línea en blanco)
+
+L24  .tarjeta h1 {
+     Regla para el <h1> que esté dentro de .tarjeta (el título).
+
+L25  font-family: 'Orbitron', sans-serif;
+     Usa la fuente Orbitron (cargada en index.html); si no está
+     disponible, usa una fuente sans-serif normal.
+
+L26  font-size: 28px;
+     Tamaño del título.
+
+L27  color: #39ff88;
+     Color verde neón del título.
+
+L28  text-align: center;
+     Centra el texto horizontalmente.
+
+L29  margin-top: 0;
+     Quita el margen superior que los h1 traen por defecto.
+
+L30  }
+
+L31  (línea en blanco)
+
+L32  .subtitulo {
+     Regla para el texto "Únete a Verdant Grid".
+
+L33  text-align: center;
+     Lo centra.
+
+L34  color: #9fc4ae;
+     Verde apagado, para que no destaque tanto como el título.
+
+L35  margin-bottom: 25px;
+     Separa el subtítulo de los campos de abajo.
+
+L36  }
+
+L37  (línea en blanco)
+
+L38  .tarjeta label {
+     Regla para todas las etiquetas dentro de la tarjeta.
+
+L39  display: block;
+     Hace que cada etiqueta ocupe su propia línea (no se pone al lado
+     del input).
+
+L40  margin-bottom: 5px;
+     Pequeña separación entre la etiqueta y su campo.
+
+L41  font-size: 14px;
+     Tamaño de letra de las etiquetas.
+
+L42  }
+
+L43  (línea en blanco)
+
+L44  .tarjeta input {
+     Regla para todos los campos de texto dentro de la tarjeta.
+
+L45  width: 100%;
+     El campo ocupa todo el ancho de la tarjeta.
+
+L46  padding: 10px;
+     Espacio interior: el texto no queda pegado al borde del campo.
+
+L47  margin-bottom: 15px;
+     Separa un campo del siguiente.
+
+L48  background-color: #070d0a;
+     Fondo del campo: el mismo verde casi negro de la página.
+
+L49  border: 1px solid #2a4a36;
+     Borde fino verde oscuro (más discreto que el de la tarjeta).
+
+L50  border-radius: 5px;
+     Esquinas ligeramente redondeadas.
+
+L51  color: #d7e6dc;
+     Color del texto que escribe el usuario.
+
+L52  font-size: 14px;
+     Tamaño del texto dentro del campo.
+
+L53  }
+
+L54  (línea en blanco)
+
+L55  .tarjeta input:focus {
+     Regla que se aplica solo cuando el campo está seleccionado
+     (cuando el usuario hace clic o escribe en él).
+
+L56  outline: none;
+     Quita el contorno azul que el navegador pone por defecto.
+
+L57  border-color: #39ff88;
+     Cambia el borde a verde neón para indicar qué campo está activo.
+
+L58  }
+
+L59  (línea en blanco)
+
+L60  .tarjeta .boton {
+     Estilos del botón "Registrarme". El selector .tarjeta .boton
+     significa "el elemento con clase boton que esté DENTRO de .tarjeta".
+     Así estos estilos NO afectan al botón "Empezar" de Home.
+
+L61  width: 100%;
+     Ocupa todo el ancho de la tarjeta.
+
+L62  padding: 10px;
+     Espacio interior (hace el botón más alto y cómodo de pulsar).
+
+L63  background-color: #39ff88;
+     Fondo verde neón.
+
+L64  color: #070d0a;
+     Texto oscuro, para que se lea bien sobre el verde.
+
+L65  border: none;
+     Sin borde.
+
+L66  border-radius: 6px;
+     Esquinas redondeadas.
+
+L67  font-size: 16px;
+     Tamaño del texto del botón.
+
+L68  cursor: pointer;
+     Al pasar el ratón se ve la manita, indicando que se puede pulsar.
+
+L69  }
+
+L70  (línea en blanco)
+
+L71  .tarjeta .boton:hover {
+     Regla que se aplica cuando el ratón está encima del botón
+     de la tarjeta.
+
+L72  background-color: #75f6a9;
+     Un verde más claro para dar sensación de interacción.
+
+L73  }
+
+L74  (línea en blanco)
+
+L75  .mensaje {
+     Estilos del mensaje de error o de éxito.
+
+L76  margin-top: 15px;
+     Lo separa del botón.
+
+L77  text-align: center;
+     Lo centra.
+
+L78  color: #ff6b6b;
+     Color rojo para que se vea que es un aviso.
+
+L79  font-size: 14px;
+     Tamaño del texto.
+
+L80  }
+
+L81  (línea en blanco)
+
+L82  .pie {
+     Estilos del párrafo inferior ("Volver al inicio").
+
+L83  margin-top: 20px;
+     Lo separa del resto.
+
+L84  text-align: center;
+     Lo centra.
+
+L85  }
+
+L86  (línea en blanco)
+
+L87  .enlace {
+     Estilos del botón que parece un enlace.
+
+L88  background: none;
+     Sin fondo (no queremos el fondo gris de un botón normal).
+
+L89  border: none;
+     Sin borde.
+
+L90  color: #39ff88;
+     Texto verde neón.
+
+L91  cursor: pointer;
+     Manita al pasar el ratón.
+
+L92  font-size: 14px;
+     Tamaño del texto.
+
+L93  text-decoration: underline;
+     Subrayado, para que parezca un enlace de verdad.
+
+L94  }
+     Fin de la hoja de estilos.
+
+NOTA: antes la clase .boton de este archivo se llamaba igual que la de
+Home.css y, al cargarse después, cambiaba el tamaño del botón "Empezar".
+Ahora se llama .tarjeta .boton, así que solo afecta al botón que está
+dentro del formulario. El botón de Home conserva su tamaño original
+(padding: 10px 20px, sin width: 100%).
+
+
+================================================================
+3.5 src/index.css (fondo compartido)
+================================================================
+
+Este archivo se importa una sola vez en main.jsx, así que sus estilos
+se aplican a TODA la aplicación. Por eso Home y Register comparten el
+mismo fondo.
+
+L1-L5    *, *::before, *::after { box-sizing: border-box; }
+         Hace que el padding y el borde se cuenten dentro del ancho
+         de los elementos. Es una base cómoda para maquetar.
+
+L7-L12   body { ... }
+         Quita el margen del navegador, pone la fuente general,
+         el fondo verde oscuro y el color de texto claro.
+
+L14      /* Fondo compartido por Home y Register */
+         Comentario que indica que lo siguiente es el fondo común.
+
+L15-L23  .suelo { ... }
+         Caja del suelo: position: absolute la pega abajo, ocupa el
+         50% de la altura y activa perspective: 400px para dar
+         sensación de profundidad a la rejilla. Además, pointer-events:
+         none hace que el fondo NO capture los clics del ratón.
+
+L25-L39  .rejilla { ... }
+         Dibuja la cuadrícula verde:
+         - background-image: dos linear-gradient (líneas horizontales
+           y verticales).
+         - background-size: 50px 50px (tamaño de cada celda).
+         - transform: rotateX(60deg) la tumba para simular un suelo 3D.
+         - opacity: 0.4 la hace semitransparente.
+         - animation: mover-rejilla 2s linear infinite la anima sin fin.
+
+L41-L48  @keyframes mover-rejilla { ... }
+         Define la animación: mueve el fondo de 0 a 50px en vertical.
+         Como el bucle es infinito, parece que la rejilla avanza.
+
+L50-L60  .sol { ... }
+         El sol: un círculo amarillo de 250x250 px colocado con
+         position: absolute arriba a la derecha, con un resplandor
+         (box-shadow). También tiene pointer-events: none para que no
+         bloquee los clics.
+
+NOTA: el suelo y el sol se colocan respecto al contenedor más cercano
+que tenga position: relative. En Home es .hero y en Register es
+.registro. Por eso ambos tienen position: relative.
+
+
+================================================================
+4. src/App.jsx
+================================================================
+
+L1   import { useState } from 'react'
+     Importa useState, porque App también necesita recordar qué
+     pantalla está mostrando.
+
+L2   import Home from './pages/Home.jsx'
+     Importa el componente Home.
+
+L3   import Register from './pages/Register.jsx'
+     Importa el componente Register.
+
+L4   import './App.css'
+     Importa los estilos generales de la app.
+
+L5   (línea en blanco)
+
+L6   function App() {
+     Declara el componente principal.
+
+L7   const [pantalla, setPantalla] = useState('home')
+     Estado que guarda la pantalla actual. Empieza en 'home'.
+     setPantalla('register') cambiaría a registro y
+     setPantalla('home') volvería al inicio.
+
+L8   (línea en blanco)
+
+L9   if (pantalla === 'register') {
+     Si el estado vale 'register'...
+
+L10  return <Register onVolver={() => setPantalla('home')} />
+     ...devuelve la pantalla Register.
+     onVolver es una función: cuando Register la llame, se ejecutará
+     setPantalla('home') y volveremos al inicio.
+     Es una función flecha: () => setPantalla('home').
+
+L11  }
+     Fin del if.
+
+L12  (línea en blanco)
+
+L13  return <Home onRegister={() => setPantalla('register')} />
+     Si no es 'register', devuelve Home.
+     onRegister es otra función que, al llamarse, cambia a 'register'.
+
+L14  }
+     Fin del componente App.
+
+L15  (línea en blanco)
+
+L16  export default App
+     Exporta App para que main.jsx lo dibuje en el navegador.
+
+
+================================================================
+5. src/pages/Home.jsx (solo lo que ha cambiado)
+================================================================
+
+L4   function Home({ onRegister }) {
+     Antes era function Home() {. Ahora recibe el prop onRegister,
+     que App le pasa para poder cambiar de pantalla.
+
+L19  <Buttons onClick={onRegister} />
+     Antes era <Buttons />. Ahora le pasamos onRegister como onClick,
+     así el botón "Empezar" sabe qué hacer al pulsarse.
+
+El resto del archivo no se ha tocado. El sol, el suelo y la rejilla
+siguen en el JSX, pero sus estilos ahora están en index.css.
+
+
+================================================================
+6. src/components/Buttons.jsx
+================================================================
+
+L1   function Buttons({ onClick }) {
+     El componente ahora recibe un prop llamado onClick (una función).
+
+L2   return (
+     Empieza el JSX que devuelve.
+
+L3   <button className="boton" onClick={onClick}>Empezar</button>
+     Crea el botón con la clase "boton" y le asigna onClick.
+     Cuando el usuario pulse, se ejecutará la función que venga de Home
+     (que a su vez viene de App) y se cambiará de pantalla.
+     El texto visible es "Empezar".
+
+L4   )
+     Cierra el return.
+
+L5   }
+     Cierra la función.
+
+L6   (línea en blanco)
+
+L7   export default Buttons
+     Exporta el componente para poder importarlo en Home.jsx.
+
+
+================================================================
+7. CÓMO PROBARLO
+================================================================
+
+Opción A (con Docker, como indica el README):
+
+    docker compose up --build
+
+Opción B (sin Docker, si tienes Node instalado):
+
+    npm install
+    npm run dev
+
+Luego abre en el navegador:
+
+    http://localhost:5173
+
+Qué probar:
+  1. En Home, pulsa "Empezar" -> debe aparecer la pantalla de registro.
+     El botón "Empezar" debe verse del mismo tamaño que antes.
+  2. La pantalla de registro debe tener el mismo fondo que Home:
+     sol amarillo arriba a la derecha y rejilla verde animada abajo.
+  3. Pulsa "Registrarme" sin escribir nada -> el navegador avisa
+     porque los campos son required.
+  4. Escribe una contraseña de menos de 8 caracteres -> mensaje rojo.
+  5. Escribe contraseñas distintas -> "Las contraseñas no coinciden".
+  6. Rellena todo bien -> "¡Cuenta creada correctamente!".
+  7. Registra el mismo email otra vez -> "Ese email ya está registrado".
+  8. Recarga la página (F5) y vuelve a registrarte con otro email.
+     El usuario anterior sigue guardado.
+  9. Pulsa "Volver al inicio" -> vuelve a Home.
+
+Cómo ver los usuarios guardados:
+  - Abre las herramientas de desarrollo del navegador (F12).
+  - Ve a la pestaña "Application" (Chrome/Edge) o "Almacenamiento"
+    (Firefox).
+  - En el menú izquierdo busca "Local Storage" y luego
+    http://localhost:5173.
+  - Verás la clave "usuarios" con un array en formato JSON.
+
+Para borrarlos: selecciona la clave "usuarios" y pulsa la papelera,
+o ejecuta esto en la consola del navegador:
+
+    localStorage.removeItem('usuarios')
+
+
+================================================================
+8. CONCEPTOS CLAVE EXPLICADOS
+================================================================
+
+useState
+  Guarda un dato que puede cambiar y hace que la pantalla se actualice
+  cuando cambia. Se usa así:
+      const [valor, setValor] = useState(valorInicial)
+
+Componente controlado
+  El input no guarda su texto por su cuenta: su value viene del estado
+  y su onChange actualiza el estado. React siempre manda.
+
+onChange
+  Evento que se dispara cada vez que el usuario escribe en un campo.
+  e.target es el campo, y e.target.value es el texto que contiene.
+
+preventDefault()
+  Cancela el comportamiento por defecto del navegador. En un formulario,
+  evita que la página se recargue al enviar.
+
+Props
+  Datos o funciones que un componente padre pasa a un hijo.
+  Ejemplo: App pasa onVolver a Register y onRegister a Home.
+
+className
+  En React se escribe className en vez de class, porque class es una
+  palabra reservada de JavaScript.
+
+htmlFor
+  En React se escribe htmlFor en vez de for, por la misma razón.
+
+Condicional con &&
+  {mensaje && <p>...</p>} muestra el <p> solo si mensaje tiene texto.
+
+type="button" vs type="submit"
+  submit envía el formulario (dispara onSubmit).
+  button solo ejecuta su onClick. El botón "Volver" debe ser button
+  para no enviar el formulario sin querer.
+
+Función flecha
+  Forma corta de escribir una función:
+      () => setPantalla('home')
+  Se usa mucho para pasar funciones como props sin ejecutarlas en el
+  momento.
+
+localStorage
+  Un pequeño almacén que el navegador guarda en el disco del usuario.
+  Solo puede guardar TEXTO (strings), y los datos no caducan solos.
+  - localStorage.setItem('clave', 'valor')  -> guardar
+  - localStorage.getItem('clave')           -> leer (o null)
+  - localStorage.removeItem('clave')        -> borrar
+  Los datos son visibles y editables desde DevTools, así que no sirven
+  para guardar contraseñas reales.
+
+JSON.stringify / JSON.parse
+  Son conversiones entre objetos de JavaScript y texto.
+  - JSON.stringify(array) -> texto (para guardar en localStorage)
+  - JSON.parse(texto)     -> array u objeto (para volver a usarlo)
+  Ejemplo:
+      const texto = JSON.stringify([{ nombre: 'Ana' }])
+      const datos = JSON.parse(texto)
+
+Array y .push()
+  Un array es una lista. push(...) añade un elemento al final:
+      const lista = []
+      lista.push('Ana')   // lista ahora es ['Ana']
+
+.some()
+  Recorre un array y devuelve true si ALGUNO de sus elementos cumple
+  una condición:
+      const hayAdultos = edades.some((edad) => edad >= 18)
+
+Operador ||
+  Se usa como "si lo de la izquierda es null/vacío, usa lo de la
+  derecha":
+      const lista = JSON.parse(...) || []
+  Si getItem devuelve null, nos quedamos con un array vacío.
+
+position: relative / absolute
+  position: relative deja el elemento en su sitio, pero además lo
+  convierte en la REFERENCIA para sus hijos absolutos.
+  position: absolute saca el elemento del flujo normal y lo coloca
+  usando top/right/bottom/left respecto a su contenedor relativo.
+  Ejemplo: .registro es relative y .sol es absolute, así el sol se
+  coloca arriba a la derecha de la sección, no de la página.
+
+overflow: hidden
+  Recorta todo lo que sobresalga del elemento. Se usa para que la
+  rejilla (que mide el 200% de ancho) no cree scroll horizontal.
+
+Selector descendiente (.tarjeta .boton)
+  Aplica estilos solo a los elementos que están dentro de otro.
+  Permite tener dos botones con la misma clase .boton y que cada uno
+  se vea distinto según dónde esté.
+
+z-index
+  Controla qué elemento queda encima cuando se solapan.
+  La tarjeta tiene z-index: 1 y position: relative, así queda por
+  encima del sol y de la rejilla.
+
+pointer-events: none
+  Hace que un elemento sea "transparente" a los clics: el ratón lo
+  atraviesa y llega a lo que hay debajo. Perfecto para decoración
+  como el sol o la rejilla.
+
+================================================================
+ FIN DEL DOCUMENTO
+================================================================

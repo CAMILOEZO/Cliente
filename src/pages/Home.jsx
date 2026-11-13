@@ -1,7 +1,7 @@
 import './Home.css'
 import Buttons from '../components/Buttons.jsx'
 
-function Home() {
+function Home({ onRegister }) {
   return (
     <section className="hero">
       <div className="sol"></div>
@@ -17,7 +17,7 @@ function Home() {
           Cyber-Solarpunk para la monitorización energética del hogar: la
           precisión del neón al servicio de un futuro verde.
         </p>
-        <Buttons />
+        <Buttons onClick={onRegister} />
       </div>
     </section>
   )
