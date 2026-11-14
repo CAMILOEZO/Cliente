@@ -1,0 +1,23 @@
+/* ==========================================================
+   VERDANT GRID · Fuentes
+   Pesos definidos en la guía de estilo, apartado 4.1.
+   Cada @import carga un peso concreto de una familia; solo
+   los que usamos — nada más — para minimizar la descarga.
+   ========================================================== */
+
+/* Orbitron · titulares y portada */
+@import '@fontsource/orbitron/700.css';
+@import '@fontsource/orbitron/900.css';
+
+/* Chakra Petch · H2–H4, botones, etiquetas, navegación */
+@import '@fontsource/chakra-petch/500.css';
+@import '@fontsource/chakra-petch/600.css';
+
+/* Inter · párrafos, formularios y textos de ayuda */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+
+/* JetBrains Mono · cifras, unidades, IPs, ejes */
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/600.css';

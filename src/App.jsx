@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import Home from './pages/Home.jsx'
-import Register from './pages/Register.jsx'
+import Auth from './pages/Auth.jsx'
 import './App.css'
 
 function App() {
   const [pantalla, setPantalla] = useState('home')
 
-  if (pantalla === 'register') {
-    return <Register onVolver={() => setPantalla('home')} />
+  if (pantalla === 'auth') {
+    return <Auth onVolver={() => setPantalla('home')} />
   }
 
-  return <Home onRegister={() => setPantalla('register')} />
+  return <Home onAuth={() => setPantalla('auth')} />
 }
 
 export default App

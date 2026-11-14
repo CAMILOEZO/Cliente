@@ -1,0 +1,96 @@
+/* ==========================================================
+   VERDANT GRID · Design tokens v0.1
+   Cyber-Solarpunk · Tema oscuro por defecto
+
+   Fuente de verdad: Guía de estilo visual, apartado 12.
+   Toda variable que uses en el proyecto debe salir de aquí.
+   ========================================================== */
+
+:root {
+  /* --- Fondos y superficies --- */
+  --bg-void:       #070D0A;  /* Fondo general de la aplicación */
+  --bg-deep:       #0B1611;  /* Sidebar, topbar, campos de formulario */
+  --bg-panel:      #102119;  /* Tarjetas, paneles y modales */
+  --bg-raised:     #16301F;  /* Hover, elementos elevados, botón desactivado */
+  --border-subtle: #1F3D2B;  /* Divisores y líneas de rejilla de gráficas */
+  --border-strong: #2E5C40;  /* Bordes de tarjetas, inputs y bloques de sala */
+
+  /* --- Verdes de marca --- */
+  --neon-300: #8CFFBE;  /* Hover del botón primario, resaltados suaves */
+  --neon-500: #39FF88;  /* PRIMARIO · acciones, datos vivos, foco */
+  --neon-600: #1FD46A;  /* Estado pulsado (active) */
+  --neon-700: #12A150;  /* Variante oscura (fondos de énfasis) */
+  --leaf:     #A3D977;  /* Verde hoja: indicadores ecológicos, CO₂, ahorro */
+  --moss:     #5E8C4A;  /* Musgo: superficies del módulo medioambiental */
+
+  /* --- Acentos --- */
+  --solar:     #FFC93C;  /* Ámbar solar · renovables, avisos, consumo alto */
+  --data-cyan: #2DE2E6;  /* Información, dispositivos simulados, series de datos */
+  --glitch:    #FF3EA5;  /* Uso puntual: glitch en errores críticos */
+
+  /* --- Texto --- */
+  --text-primary:   #E6FFF0;  /* Títulos, valores y texto principal */
+  --text-secondary: #9CC7AE;  /* Párrafos, etiquetas, navegación inactiva */
+  --text-muted:     #6B9A80;  /* Unidades, ayudas, ejes de gráficas */
+  --text-on-neon:   #04110A;  /* Texto sobre fondos neón, solar o cian */
+
+  /* --- Semánticos (reutilizan los de marca) --- */
+  --success: var(--neon-500);  /* Correcto, en línea, objetivo cumplido */
+  --warning: var(--solar);     /* Aviso, consumo alto, se acerca al límite */
+  --danger:  #FF5C6C;          /* Error, consumo crítico, acción destructiva */
+  --info:    var(--data-cyan); /* Información neutra, dispositivo simulado */
+
+  /* --- Escala de consumo energético --- */
+  --load-low:      #39FF88;  /* < 40 % del límite */
+  --load-moderate: #C6F432;  /* 40 – 70 % */
+  --load-high:     #FFC93C;  /* 70 – 90 % */
+  --load-excess:   #FF8A3D;  /* 90 – 100 % */
+  --load-critical: #FF5C6C;  /* > 100 % — genera alerta */
+
+  /* --- Tipografía: familias --- */
+  --font-display: 'Orbitron', 'Chakra Petch', sans-serif;      /* H1 de portada, cifras hero */
+  --font-heading: 'Chakra Petch', 'Inter', sans-serif;         /* H2–H4, botones, etiquetas */
+  --font-body:    'Inter', system-ui, sans-serif;              /* Párrafos y formularios */
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;   /* Cifras, unidades, IPs */
+
+  /* --- Tipografía: tamaños (base 16 px, progresión ~1,25) --- */
+  --fs-xs:      0.75rem;   /* 12 px */
+  --fs-sm:      0.875rem;  /* 14 px */
+  --fs-md:      1rem;      /* 16 px */
+  --fs-lg:      1.25rem;   /* 20 px */
+  --fs-xl:      1.5rem;    /* 24 px */
+  --fs-2xl:     2rem;      /* 32 px */
+  --fs-3xl:     2.5rem;    /* 40 px */
+  --fs-display: 3rem;      /* 48 px */
+
+  /* --- Espaciado (base 4 px) --- */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* --- Formas --- */
+  --radius-sm:      2px;
+  --radius-md:      4px;
+  --radius-organic: 18px 4px 18px 4px;  /* Forma "hoja" para tarjetas eco */
+  --radius-pill:    999px;
+  --chamfer:        10px;               /* Corte en esquina (cyberpunk) */
+
+  /* --- Efectos: brillos, sombras y degradados --- */
+  --glow-sm:    0 0 6px rgba(57, 255, 136, 0.45);
+  --glow-md:    0 0 14px rgba(57, 255, 136, 0.35), 0 0 2px rgba(57, 255, 136, 0.9);
+  --glow-solar: 0 0 14px rgba(255, 201, 60, 0.40);
+  --shadow-panel:   0 8px 24px rgba(0, 0, 0, 0.45);
+  --gradient-dawn:  linear-gradient(120deg, #39FF88 0%, #A3D977 45%, #FFC93C 100%);
+  --gradient-panel: linear-gradient(180deg, rgba(57, 255, 136, 0.06), rgba(57, 255, 136, 0) 40%);
+
+  /* --- Movimiento --- */
+  --ease-out:  cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast:  150ms;  /* Hover, foco, cambio de color de botones */
+  --dur-base:  250ms;  /* Apertura de menús, toasts, cambio de pestaña */
+  --dur-slow:  400ms;  /* Entrada de gráficas, modales, transición de cifras */
+}

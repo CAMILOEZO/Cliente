@@ -1,15 +1,14 @@
 .hero {
   display: flex;
   min-height: 100vh;
-  background-color: #070d0a;
-  color: #d7e6dc;
-  padding: 40px;
+  background-color: var(--bg-void);
+  color: var(--text-secondary);
+  padding: var(--sp-8);
   position: relative;
   overflow: hidden;
   justify-content: left;
   align-items: center;
 }
-
 
 .contenido {
   max-width: 600px;
@@ -17,18 +16,18 @@
 }
 
 .titulo {
-  text-shadow: 0px 0px 25px #75f6a9;
-  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 25px var(--neon-300);
+  font-family: var(--font-display);
   font-size: 100px;
-  color: #39ff88;
+  color: var(--neon-500);
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: var(--sp-6);
 }
 
 .texto {
-  font-size: 25px;
+  font-size: var(--fs-xl);
   line-height: 1.5;
-  margin-bottom: 25px;
+  margin-bottom: var(--sp-6);
 }
 
 .lista {
@@ -38,24 +37,24 @@
 
 .chip {
   display: inline-block;
-  font-family: monospace;
-  font-size: 14px;
-  padding: 5px 10px;
-  margin-right: 8px;
-  border: 1px solid #d7e6dc;
-  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  padding: var(--sp-1) var(--sp-3);
+  margin-right: var(--sp-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
 }
 
 .boton {
-  background-color: #39ff88;
-  color: #070d0a;
-  font-size: 16px;
-  padding: 10px 20px;
+  background-color: var(--neon-500);
+  color: var(--text-on-neon);
+  font-size: var(--fs-md);
+  padding: var(--sp-3) var(--sp-6);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
 }
 
 .boton:hover {
-  background-color: #75f6a9;
+  background-color: var(--neon-300);
 }
