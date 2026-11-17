@@ -12,6 +12,7 @@ function Auth({ onVolver }) {
       <div className="sol"></div>
       <div className="suelo">
         <div className="rejilla"></div>
+        <div className="niebla"></div>
       </div>
 
       <div className="auth-contenedor">
@@ -36,12 +37,14 @@ function Auth({ onVolver }) {
         {/* Según la pestaña activa, mostramos un formulario u otro */}
         <div className="tarjeta">
           {modo === 'login' ? <Login /> : <Register />}
+
+          <p className="pie">
+            <button type="button" className="volver" onClick={onVolver}>
+              Volver al inicio
+            </button>
+          </p>
         </div>
       </div>
-
-      <button type="button" className="volver" onClick={onVolver}>
-        Volver al inicio
-      </button>
     </section>
   )
 }

@@ -30,21 +30,6 @@
   margin-bottom: var(--sp-6);
 }
 
-.lista {
-  list-style: none;
-  padding: 0;
-}
-
-.chip {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  padding: var(--sp-1) var(--sp-3);
-  margin-right: var(--sp-2);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-}
-
 .boton {
   background-color: var(--neon-500);
   color: var(--text-on-neon);

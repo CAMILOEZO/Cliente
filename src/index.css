@@ -11,7 +11,13 @@ body {
   color: var(--text-secondary);
 }
 
-/* Fondo compartido por Home y Register */
+/* Los botones e inputs no heredan la fuente solos: se la pasamos del body */
+button,
+input {
+  font-family: inherit;
+}
+
+/* Fondo compartido por Home y Auth */
 .suelo {
   position: absolute;
   left: 0;
@@ -36,6 +42,16 @@ body {
   transform-origin: bottom;
   opacity: 0.4;
   animation: mover-rejilla 2s linear infinite;
+}
+
+/* Niebla: tapa la parte de arriba de la rejilla para que se desvanezca */
+.niebla {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(var(--bg-void) 60%, transparent 110%);
 }
 
 @keyframes mover-rejilla {

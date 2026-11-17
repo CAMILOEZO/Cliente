@@ -24,7 +24,7 @@ Cliente/
 ## Arrancar
 
 ```bash
-docker compose up --build
+ docker compose up --build -V
 ```
 
 Abre http://localhost:5173 — los cambios en `src/` se recargan solos.
