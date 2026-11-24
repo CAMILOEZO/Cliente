@@ -39,7 +39,13 @@
 }
 
 .pestana-activa {
-  background-color: var(--bg-panel);
+  background-color: var(--bg-raised);
+  color: var(--neon-500);
+  border-bottom: 3px solid var(--neon-500);
+}
+
+.pestana:hover:not(.pestana-activa) {
+  background-color: var(--bg-raised);
   color: var(--text-primary);
 }
 
